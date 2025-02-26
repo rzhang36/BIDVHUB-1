@@ -1,0 +1,55 @@
+#server:
+#  port: 8101
+#spring:
+#  # 数据库配置
+#  # todo 需替换配置
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/my_db
+#    username: root
+#    password: 123456
+#  # Redis 配置
+#  # todo 需替换配置
+#  redis:
+#    database: 1
+#    host: localhost
+#    port: 6379
+#    timeout: 5000
+#    password: 123456
+#  # rabbitmq 配置
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#mybatis-plus:
+#  configuration:
+#    # 生产环境关闭日志
+#    log-impl: ''
+
+server:
+  port: 8101
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}  # 使用 RDS 提供的环境变量
+    username: ${RDS_USERNAME}  # 从环境变量中获取用户名
+    password: ${RDS_PASSWORD}  # 从环境变量中获取密码
+
+  redis:
+    database: 1
+    host: ${REDIS_HOST}  # 从环境变量中获取 Redis 主机
+    port: ${REDIS_PORT}  # 从环境变量中获取 Redis 端口
+    timeout: 5000
+    password: ${REDIS_PASSWORD}  # 从环境变量中获取 Redis 密码
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}  # 从环境变量中获取 RabbitMQ 主机
+    port: ${RABBITMQ_PORT}  # 从环境变量中获取 RabbitMQ 端口
+    username: ${RABBITMQ_USERNAME}  # 从环境变量中获取 RabbitMQ 用户名
+    password: ${RABBITMQ_PASSWORD}  # 从环境变量中获取 RabbitMQ 密码
+
+mybatis-plus:
+  configuration:
+    log-impl: ''  # 生产环境关闭日志

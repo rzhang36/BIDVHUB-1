@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  # Redis 服务定义
+  redis:
+    image: redis:6.0.7
+    container_name: redisForYubi
+    restart: always
+    volumes:
+      - redis_volume_data:/dataForYubi
+    ports:
+      - "6379:6379"
+
+  # RabbitMQ 服务定义
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # Java 后端服务定义
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yubi-backend
+    ports:
+      - "8101:8101"
+    volumes:
+      - ./target:/app/target
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+volumes:
+  redis_volume_data:
